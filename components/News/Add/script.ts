@@ -7,6 +7,7 @@ interface IFormData extends News {
   [key: string]: any
 }
 const initFormData: Partial<IFormData> = {
+  title: '',
   image: '',
   languageType: 0,
   newsType: 2,
@@ -58,10 +59,15 @@ export default defineComponent({
         form[field] = value
       }
     }
-    const onWordUpload = (html: string, meta: Partial<IFormData>) => {
+    const onWordUpload = ({html, meta}: {html: string, meta: Partial<IFormData>}) => {
       form.content = html;
+      console.log(111, 'meta', meta)
       Object.keys(meta).forEach((key) => {
-        if (form[key]) form[key] = meta[key];
+        if (key === 'category') {
+          form.keywords = meta[key].split(', ');
+        } else {
+          form[key] = meta[key];
+        }
       })
     }
     const onSelectedStocksChange = (items: Stock[]) => {

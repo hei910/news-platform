@@ -32,7 +32,10 @@ export default defineComponent({
             ]
         };
         if (arrayBuffer) mammoth.convertToHtml({arrayBuffer}, { ...options, transformDocument }).then((result: any) => {
-            emit('wordUpload', result.value.replace(/\\/,''), metaData); // 1: HTML, 2: Metadata
+            emit('wordUpload', {
+              html: result.value.replace(/\\/,''), 
+              meta: metaData
+            }); // 1: HTML, 2: Metadata
         });
       }
       if (target.files) reader.readAsArrayBuffer(target.files[0]);
