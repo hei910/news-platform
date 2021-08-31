@@ -19,7 +19,7 @@ export default defineComponent({
       tableColumns,
       getDictLabelById,
       toDateString,
-      test: (data) => console.log(111, data)
+      test: (data: any) => console.log(111, data)
     }
   },
 })

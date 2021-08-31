@@ -48,7 +48,7 @@ export default defineComponent({
       newsTypeLabel,
       newsTypeOptions,
       onFilterChange,
-      test: (data) => console.log(111, data.toString(), data)
+      test: (data: any) => console.log(111, data.toString(), data)
     }
   },
 })
