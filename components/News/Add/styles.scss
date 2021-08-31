@@ -1,0 +1,52 @@
+section.news-add {
+
+  .form {
+
+    header {
+      display: flex;
+      align-items: center;
+
+      .btns {
+        margin-left: auto;
+      }
+    }
+  }
+  main {
+
+    // select, 
+    // .form-control:not(textarea) {
+    //   min-width: 20em;
+    //   max-width: 30em;
+    // }
+  }
+  aside {
+
+    .btn-group {
+      width: 100%;
+    }
+  }
+  .input-digest {
+    margin: 0 0 -1px;
+  }
+  ::v-deep .cke_editable {
+    min-height: 20em; 
+  }
+
+  .selected {
+    display: flex;
+    flex-wrap: wrap;
+  
+    button {
+
+      &:hover {
+        background: white;
+        border-color: $border;
+        color: inherit;
+
+        svg {
+          fill: $red;
+        }
+      }
+    }
+  }
+}

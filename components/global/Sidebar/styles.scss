@@ -1,0 +1,20 @@
+#sidebar {
+  text-align: center;
+  color: white;
+  width: 100px;
+  height: 100vh;
+  padding: 1em 0;
+  background: $dark;
+
+  .b-avatar {
+    margin: 0.5em;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.15);
+  }
+  .avatar {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.25;
+    margin: 2em 1em;
+  }
+}

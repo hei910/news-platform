@@ -1,0 +1,29 @@
+.formUploadImage {
+  display: flex;
+  align-items: center;
+
+  .preview {
+    min-width: 20em;
+    max-width: 25em;
+    height: 12em;
+    margin: 0 1em 0 0;
+    background: $bg;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &.noImage {
+      border: 1px solid $border;
+    }
+    svg {
+      font-size: 3em;
+      fill: $border;
+    }
+  }
+  ::v-deep {
+    
+    input, select {
+      font-size: inherit;
+    }
+  }
+}

@@ -1,0 +1,28 @@
+.icon {
+  margin: 0 0.5em 0 0;
+  color: $secondary;
+
+  tr:hover & {
+    
+    &.view {
+      color: $green;
+    }
+    &.like {
+      color: $red;
+    }
+    &.share {
+      color: $blue;
+    }
+  }
+}
+.count {
+  display: inline-block;
+  min-width: 3em;
+}
+.actions {
+
+  .btn {
+    font-size: inherit;
+    margin: -0.5em 0;
+  }
+}

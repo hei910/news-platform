@@ -1,0 +1,27 @@
+.form.filters {
+  margin: 0 0 1em;
+  white-space: nowrap;
+
+  .col {
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 auto;
+  }
+  label {
+    margin: 0 1em 0 0;
+  }
+  .form-control {
+    white-space: nowrap;
+  }
+  .form-actions {
+
+    .btn {
+      margin: 0 0.5em 0 0;
+    }
+  }
+}
+
+::v-deep {
+}

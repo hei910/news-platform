@@ -1,0 +1,68 @@
+.filters {
+  margin-bottom: 1em;
+
+  .col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    label {
+      white-space: nowrap;
+      margin: 0 1em 0 0;
+    }
+  }
+}
+
+::v-deep {
+
+  // Modal
+
+  .modal-dialog {
+    font-size: 12px;
+    max-width: 75vw;
+  }
+
+  .modal-header {
+    font-size: 16px;
+    padding: 1em;
+    background: $bg;
+
+    & > div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+  }
+}
+
+.b-table-sticky-header {
+  max-height: none;
+}
+
+.selected {
+  display: flex;
+  margin: 0 0 1em;
+
+  .item {
+    font-size: 14px;
+    line-height: 1;
+    color: white;
+    background: $primary;
+    margin: 0 0.5em 0 0;
+    padding: 0.5em;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    cursor: pointer;
+
+    &:hover {
+      background: white;
+      border-color: $border;
+      color: inherit;
+
+      svg {
+        fill: $red;
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+#header {
+  padding: 1rem;
+  border-bottom: 1px solid $border;
+  background: white;
+
+  .name {
+    font-weight: 900;
+    display: inline-block;
+    margin: 0 0.25em;
+  }
+}
+
+#logo {
+  width: 2em;
+  height: 2em;
+}
