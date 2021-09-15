@@ -1,6 +1,6 @@
 <template>
 
-  <b-modal id="modal-addStocks" hide-footer scrollable size="lg">
+  <b-modal id="modal-addStocks" hide-footer scrollable size="lg" @hidden="onClose">
     <template slot="modal-header">
       <div class="">
         <b-icon-graph-up class="mr-2"/> 添加相關股票
@@ -8,7 +8,7 @@
       </div>
     </template>
     <div class="selected">
-      <div v-for="item in relatedStocks" :key="item.id" class="item" @click="onSelectedItemClick(item)">
+      <div v-for="item in selected" :key="item.id" class="item" @click="onSelectedItemClick(item)">
         {{ item.code }}
         <b-icon-x-circle-fill class="ml-1"/>
       </div>
@@ -28,6 +28,8 @@
       </div>
     </div>
     <b-table 
+      id="stockListTable"
+      ref="tableRef"
       :items="rowData" 
       :fields="tableColumns" 
       table-class="list"
@@ -35,15 +37,21 @@
       selectable
       borderless 
       sticky-header
-      current-page="1"
-      per-page="10"
+      :current-page="pager.page"
+      :per-page="pager.pageSize"
       @row-selected="onRowSelected"
+      @refreshed="onTableRefreshed"
     >
       <template #cell(selected)="{ rowSelected }">
         <b-icon-check v-if="rowSelected" size="lg"/>
       </template>
     </b-table>
-    <b-pagination/>
+    <b-pagination
+      v-model="pager.page"
+      :total-rows="pager.total"
+      :per-page="pager.pageSize"
+      aria-controls="stockListTable"
+    />
   </b-modal>
   
 </template>

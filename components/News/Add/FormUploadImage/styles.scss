@@ -3,16 +3,19 @@
   align-items: center;
 
   .preview {
+    color: $gray-500;
     min-width: 20em;
     max-width: 25em;
     height: 12em;
     margin: 0 1em 0 0;
     background: $bg;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 
     &.noImage {
+      cursor: pointer;
       border: 1px solid $border;
     }
     svg {

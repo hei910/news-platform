@@ -25,6 +25,7 @@
     "mammoth-styled": "^1.0.8",
     "moment": "^2.29.1",
     "nuxt": "^2.15.7",
+    "vue-pdf": "^4.3.0",
     "vue2-datepicker": "^3.9.2",
     "vuex-types": "^1.0.1"
   },

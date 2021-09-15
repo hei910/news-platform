@@ -1,5 +1,7 @@
- // 语言映射
- export interface NewsLanguageType {
+import { Modify } from './';
+
+// 语言映射
+export interface NewsLanguageType {
   type                   : number; // 资讯语言类型 0 未知 1-中文 2- 英文
   mapping                : string; // 对应的 语言映射值
 }
@@ -93,19 +95,34 @@ export interface WeeklyBond {
   industrialDistribution : string // 行业分布
 }
 
-export interface News {
-  id                     : number;
-  title                  : string;
-  image                  : string;
-  publishTime            : string;
-  isOriginal             : number;
-  publisher              : string;
+export interface NewsReq {
+  title                  : string; // 标题
+  image                  : string; // 图片
+  digest                 : string; // 摘要
+  desc                   : string; // 描述
   content                : string; // 资讯内容
-  source                 : string; // 面向对象类型
-  newsType               : number; // 资讯类型
-  desc                   : string; // 是否推荐首页
+  contentType            : number; // 资讯类型
+  source                 : string; // 来源
+  isOriginal             : boolean; // 是否原创
+  publishTime            : number; // 发布时间
+  publisher              : string; // 发布者
+  keywordsList           : string[]; // 关键字
+  objectType             : number; // 面向对象类型
+  newsType               : number; // 资讯类型  0--未设定类型，1--盘前简报，2--周度脉搏，3--金马要评，4--结构化产品，5--银行信息，6--金融街亮点，7--资金动向，8--Wall Street Highlights，9--金马个债精选，10--债券周报，11--周度债券一览表，12--金马个股精选，13--市场快讯，14--IB Persperctives
+  isHomePage             : number; // 是否推荐
   languageType           : number; // 资讯语言类型 0 未知 1-中文 2- 英文
-  languageBucket         : NewsLanguageType[]; // 语言映射集合
+  platform               : number[] ;
+  allowShare             : boolean;
+  relatedStocks          : string[]; // 资讯关联股票
+  featuredStocks         : string[]; // 个股精选
+  increaseStocks         : string[]; // 新增 股票
+  decreaseStocks         : string[]; // 调出 股票
+  featuredBonds          : string[]; // 个债精选
+  increaseBond           : string[]; // 增加 个债
+  decreaseBond           : string[]; // 调出 个债
+  weeklyBonds            : string[]; // 周度债券
+}
+export interface News extends Modify<NewsReq, {
   relatedStocks          : Stock[]; // 资讯关联股票
   featuredStocks         : FeaturedStock[]; // 个股精选
   increaseStocks         : FeaturedStock[]; // 新增 股票
@@ -114,44 +131,15 @@ export interface News {
   increaseBond           : FeaturedBond[]; // 增加 个债
   decreaseBond           : FeaturedBond[]; // 调出 个债
   weeklyBonds            : WeeklyBond[]; // 周度债券
-  viewCount              : number; // 浏览次数
-  platform               : number[] ;
-  allowShare             : boolean;
-  keywordsList           : string[]; // 关键字
-}
-
-export interface NewsDetail {
-  content                : string; // 资讯内容
-  contentType            : number; // 资讯类型
-  isOriginal             : number; // 是否原创
-  updateUser             : string; // 发布人
-  updateTime             : number; // 更新时间
+}> {
   before                 : News; // 上一条
   after                  : News; // 下一条
   id                     : number; // 资讯id
-  title                  : string; // 标题
-  image                  : string; // 图片
-  publishTime            : number; // 发布时间
-  publisher              : string; // 发布者
-  source                 : string; // 来源
-  digest                 : string; // 摘要
-  keywordsList           : string[]; // 关键字
-  objectType             : number; // 面向对象类型
-  newsType               : number; // 资讯类型  0--未设定类型，1--市场资讯，2--产品资讯，3--生活资讯 4--结合化产品 5--银行信息
-  desc                   : string; // 描述
-  isHomePage             : number; // 是否推荐
-  languageType           : number; // 资讯语言类型 0 未知 1-中文 2- 英文
   languageBucket         : NewsLanguageType[]; // 语言映射集合
-  relations              : News[]; // 相关资讯
-  relatedStocks          : Stock[]; // 资讯关联股票
-  featuredStocks         : FeaturedStock[]; // 个股精选
-  increaseStocks         : FeaturedStock[]; // 新增 股票
-  decreaseStocks         : FeaturedStock[]; // 调出 股票
-  featuredBonds          : FeaturedBond[]; // 个债精选
-  increaseBond           : FeaturedBond[]; // 增加 个债
-  decreaseBond           : FeaturedBond[]; // 调出 个债
-  weeklyBonds            : WeeklyBond[]; // 周度债券
   relatedProductsNews    : News; // 相关结构化资讯 --具有共同标的
   viewCount              : number; // 浏览次数
   collected              : boolean; // 是否收藏过
+  updateUser             : string; // 发布人
+  updateTime             : number; // 更新时间
+  relations              : News[]; // 相关资讯
 }

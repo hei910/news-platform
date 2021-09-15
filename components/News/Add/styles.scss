@@ -29,7 +29,8 @@ section.news-add {
     margin: 0 0 -1px;
   }
   ::v-deep .cke_editable {
-    min-height: 20em; 
+    margin: -1px 0 0;
+    min-height: 30em; 
   }
 
   .selected {
@@ -48,5 +49,15 @@ section.news-add {
         }
       }
     }
+  }
+  .form-item-languageType {
+
+    ::v-deep .btn {
+      min-width: 5em;
+    }
+  }
+  .pdf-preview {
+    border: 1px solid $border;
+    padding: 1em;
   }
 }

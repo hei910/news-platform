@@ -1,4 +1,4 @@
-import { defineComponent, ref, nextTick, watch, toRefs } from '@nuxtjs/composition-api';
+import { defineComponent, ref, nextTick, watch, toRefs, computed } from '@nuxtjs/composition-api';
 import { xorBy } from 'lodash';
 import { data, martketOptions } from './dummyData';
 import { tableColumns } from './config';
@@ -18,28 +18,47 @@ export default defineComponent({
   setup(props, { emit }) {
     const { relatedStocks } = toRefs(props);
     const rowData = ref(data.pageDatas)
+    const tableRef = ref(null);
     const selected = ref<Stock[]>([]);
-    const onRowSelected = (items: Stock[]):void => {
-      selected.value = items;
-      nextTick(selectedStocksChange)
-    }
-    const onSelectedItemClick = (item: Stock):void => {
-      selected.value = xorBy(selected.value, [item], (item: Stock) => item.code);
-      nextTick(selectedStocksChange)
-    }
-    const selectedStocksChange = () => {
-      emit('selectedStocksChange', selected.value)
-    }
+    const pager = ref({
+      page: 1,
+      pageSize: 10,
+      total: rowData.value.length,
+    })
+    
     watch(relatedStocks, (newStocks) => {
       selected.value = newStocks;
     })
+
+    const onRowSelected = (items: Stock[]):void => {
+      selected.value = items;
+      nextTick(stockChange)
+    }
+    const onSelectedItemClick = (item: Stock):void => {
+      console.log(111, 'tableRef', tableRef)
+      selected.value = xorBy(selected.value, [item], (item: Stock) => item.code);
+      nextTick(stockChange)
+    }
+    const stockChange = () => {
+      emit('stockChange', selected.value)
+    }
+    const onTableRefreshed = () => {
+      alert(111)
+    }
+    const onClose = () => {
+      selected.value = [];
+    }
     return {
       rowData,
       tableColumns,
       martketOptions,
+      pager,
+      tableRef,
       selected,
       onRowSelected,
-      onSelectedItemClick
+      onSelectedItemClick,
+      onTableRefreshed,
+      onClose,
     }
   }
 })

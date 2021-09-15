@@ -34,6 +34,7 @@ export default {
   plugins: [
     { src: '~/plugins/ckeditor.js', ssr: false },
     { src: '~/plugins/datePicker.js' },
+    { src: '~/plugins/pdf.js' },
     // { src: '~/plugins/composition-api.js' },
   ],
 

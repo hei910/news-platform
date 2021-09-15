@@ -1,84 +1,98 @@
-import { defineComponent, reactive } from '@nuxtjs/composition-api';
-import { xorBy } from 'lodash';
+import { defineComponent, onUpdated, reactive, ref, watch, computed } from '@nuxtjs/composition-api';
+import { xor, cloneDeep } from 'lodash';
 import { newsTypeOptions, platformOptions, langOptions, frontTagsOptions, tagsOptions } from './config/selectOptions';
-import { News, Stock } from '~/types/news';
+import { editorConfig } from './config';
+import { NewsReq, Stock } from '~/types/news';
 
-interface IFormData extends News {
-  [key: string]: any
+type FormData = Partial<NewsReq>;
+type FormHelper = {
+  hasDigest: boolean,
+  relatedStocks: Stock[],
 }
-const initFormData: Partial<IFormData> = {
-  title: '',
-  image: '',
-  languageType: 0,
-  newsType: 2,
-  keywords: [],
+
+const initFormData = (): FormData => ({
+  // title: '',
+  // image: '',
+  // languageType: 0,
+  // newsType: 1,
+  // keywordsList: [],
+  // relatedStocks: [],
+  // content: '',
+  // content: '<table id="responsiveTable" style="width: 100%"><tr><td></td></tr></table>',
+})
+
+const initFormHlper = (): FormHelper => ({
+  hasDigest: true,
   relatedStocks: [],
-  content: '<table id="responsiveTable" style="width: 100%"><tr><td></td></tr></table>',
-}
+})
+
+const initPdfData = () => ({src: null, current: 0, total: 0});
 
 export default defineComponent({
   setup() {
-    const form = reactive(initFormData);
-    const formHelper = reactive({
-      hasDigest: true,
+    const form = ref(initFormData());
+    const formHelper = ref(initFormHlper());
+    const pdfData = ref(initPdfData());
+    onUpdated(() => {
+      console.log(111, 'updated')
     });
-    const onImageInputChange = (e: string): void => {form.image = e};
-    const editorConfig = {
-      // toolbar: [
-      //   [ 'Source', '-', 'Bold', 'Italic', 'Underline', 'Strike' ]
-      // ],
-      toolbarGroups: [
-        { name: 'styles', groups: [ 'styles' ] },
-        { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-        { name: 'colors', groups: [ 'colors' ] },
-        { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align' ] },
-        { name: 'links', groups: [ 'links' ] },
-        { name: 'insert', groups: [ 'insert' ] },
-        // { name: 'document', groups: [ 'mode' ] },
-      ],
-      removeButtons: 'Language,CreateDiv,Smiley,SpecialChar,PageBreak,Iframe,FontSize,Font,ShowBlocks,About,Styles,Flash',
-      allowedContent: true,
-    }
+    // watch(() => cloneDeep(formHelper.value), (curr, old) => {
+    //   if (curr.relatedStocks !== old.relatedStocks) {
+    //     form.value.relatedStocks = curr.relatedStocks.map(item => item.code)
+    //   }
+    // })
+    watch(() => formHelper.value.relatedStocks, (relatedStocks) => {
+      form.value.relatedStocks = relatedStocks.map(item => item.code)
+    })
+    watch(() => form.value.source, (source) => {
+      if (source) form.value.isOriginal = true;
+    })
+    const onImageInputChange = (e: string) => {form.value = {...form.value, image: e}};
     const toggleDigest = () => {
-      formHelper.hasDigest = !formHelper.hasDigest;
+      formHelper.value.hasDigest = !formHelper.value.hasDigest;
     }
-    const displayDropdownText = (field: string): string => {
+    const displayDropdownText = (field: keyof FormData): string => {
       const dropdownList = { newsTypeOptions, platformOptions, langOptions, frontTagsOptions };
-      const formField = form[field];
+      const formField = form.value[field];
       const dropdown = dropdownList[(field + 'Options') as keyof typeof dropdownList];
       if (formField) {
         return dropdown.find(item => item.value === formField)?.text || '- 请选择 -'
       }
       return '- 请选择 -'
     }
-    const updateFormData = (field: keyof IFormData, value: any): void => {
-      if (Array.isArray(form[field])) {
-        const idx = (form[field]).indexOf(value)
-        idx !== -1 ? form[field].splice(idx, 1) : (form[field]).push(value);
+    const updateFormData = (key: keyof FormData, value: any) => {
+      if (Array.isArray(form.value[key]) && !Array.isArray(value)) {
+        const idx = (form.value[key] as any[])?.indexOf(value)
+        idx !== -1 
+          ? (form.value[key] as any[]).splice(idx, 1) 
+          : (form.value[key] as any[]).push(value);
       } else {
-        form[field] = value
+        form.value = {...form.value, [key]: value}
       }
     }
-    const onWordUpload = ({html, meta}: {html: string, meta: Partial<IFormData>}) => {
-      form.content = html;
-      console.log(111, 'meta', meta)
-      Object.keys(meta).forEach((key) => {
-        if (key === 'category') {
-          form.keywords = meta[key].split(', ');
-        } else {
-          form[key] = meta[key];
-        }
-      })
+    const onDocUpload = (meta: FormData) => {
+      form.value = {
+        ...form.value,
+        ...meta
+      }
     }
-    const onSelectedStocksChange = (items: Stock[]) => {
-      form.relatedStocks = items;
+    const onPdfUpload = (pdf: {src: any, total: number, current: number}) => {
+      pdfData.value = pdf;
+    } 
+    const onStockChange = (stocks: Stock[]) => {
+      formHelper.value.relatedStocks = stocks;
+      // updateFormData('relatedStocks', stocks)
     }
-    const onSelectedStockItemClick = (item: Stock):void => {
-      form.relatedStocks = xorBy(form.relatedStocks, [item], (item: Stock) => item.code);
+    const onSelectedStockItemClick = (stock: string):void => {
+      form.value.relatedStocks = xor(form.value.relatedStocks, [stock]);
+    }
+    const switchToTextEditor = () => {
+      pdfData.value = initPdfData();
     }
     return {
       form,
       formHelper,
+      pdfData,
       newsTypeOptions, 
       platformOptions, 
       langOptions, 
@@ -89,9 +103,11 @@ export default defineComponent({
       toggleDigest,
       displayDropdownText,
       updateFormData,
-      onWordUpload,
-      onSelectedStocksChange,
-      onSelectedStockItemClick
+      onDocUpload,
+      onPdfUpload,
+      onSelectedStockItemClick,
+      onStockChange,
+      switchToTextEditor
     }
   },
 })

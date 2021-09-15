@@ -68,13 +68,14 @@ Theme Override
 }
 
 .btn {
+  // min-width: 5em;
   
   .btn-group & {
     min-width: 0;
 
-    & + .btn {
-      border-left: 1px solid rgba(0,0,0,0.25);
-    }
+    // & + .btn {
+    //   border-left: 1px solid rgba(0,0,0,0.25);
+    // }
   }
   &.dropdown-toggle {
     display: flex;
