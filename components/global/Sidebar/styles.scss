@@ -4,18 +4,121 @@
   width: 100px;
   height: 100vh;
   padding: 1em 0;
-  background: $dark;
   flex: 0 0 auto;
+  background: $dark;
+  box-shadow: 0.5em 0 0.5em rgb(0,0,0,0.1);
+  transition: 0.4s ease-in-out width;
+  overflow: hidden;
+  z-index: 1;
 
+  &:hover {
+    width: 180px;
+    
+    .avatar {
+      font-size: 14px;
+    }
+    .main-menu {
+
+      .text {
+        opacity: 1;
+      }
+      .icon {
+        width: 80px;
+      }
+    }
+  }
   .b-avatar {
+    width: 4em;
+    height: 4em;
     margin: 0.5em;
-    box-shadow: 0 0 0 3px rgba(255,255,255,0.15);
+    box-shadow: 0 0 0 0.25em rgba(255,255,255,0.15);
+    // transition: 0.4s ease-in all;
   }
   .avatar {
     font-size: 12px;
     font-weight: 700;
     text-transform: uppercase;
     line-height: 1.25;
-    margin: 2em 1em;
+    height: 160px;
+    padding: 0 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: 0.4s ease-in font-size;
+  }
+}
+
+.main-menu {
+  margin: 2em 0;
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  li {
+
+    & > a {
+      display: flex;
+      align-items: center;
+    }
+  }
+  a {
+    color: $gray-500;
+    text-decoration: none;
+    padding: 0 1em;
+    position: relative;
+    transition: 0.25s ease-in-out all;
+
+    &:before {
+      // content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 4px;
+      height: 100%;
+    }
+    &:hover {
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+    &.nuxt-link-active {
+      background: rgba(0,0,0,0.3);
+      color: white;
+      
+      &:before {
+        background: $cyan;
+      }
+      .icon {
+        color: $yellow;
+      }
+    }
+    &[href="#"],
+    &[href="/#"] {
+      color: $gray-600;
+      pointer-events: none;
+    }
+  }
+  .icon {
+    width: 100px;
+    height: 4em;
+    margin: 0 -1em;
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.4s ease-in width;
+
+    span {
+      font-size: 28px;
+    }
+  }
+  .text {
+    font-size: 14px;
+    white-space: nowrap;
+    margin: 0 0.5em;
+    opacity: 0;
+    transition: 0.4s ease-in all;
   }
 }

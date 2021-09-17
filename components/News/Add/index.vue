@@ -79,7 +79,7 @@
                 trim
               ></b-form-textarea>
               <div v-if="pdfData.src" class="pdf-preview">
-                <b-button @click="switchToTextEditor">Switch to Rich Text Editor</b-button>
+                <b-button variant="outline-primary" @click="switchToTextEditor"><b-icon icon="arrow-left-right"/> Switch to Rich Text Editor</b-button>
                 <PDF
                   v-for="i in pdfData.total"
                   :key="i"
@@ -87,7 +87,7 @@
                   :page="i"
                 ></PDF>
               </div>
-              <ckeditor v-else v-model="form.content" :config="editorConfig" editor-url="https://cdn.ckeditor.com/4.16.2/full/ckeditor.js" type="inline" />
+              <ckeditor v-else v-model="form.content" :config="editorConfig" editor-url="https://cdn.ckeditor.com/4.16.2/full/ckeditor.js" />
             </div>
           </b-col>
           

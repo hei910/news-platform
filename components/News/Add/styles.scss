@@ -25,11 +25,11 @@ section.news-add {
       width: 100%;
     }
   }
-  .input-digest {
+  .form-item-digest {
     margin: 0 0 -1px;
   }
+  ::v-deep .cke_contents,
   ::v-deep .cke_editable {
-    margin: -1px 0 0;
     min-height: 30em; 
   }
 
@@ -57,7 +57,13 @@ section.news-add {
     }
   }
   .pdf-preview {
-    border: 1px solid $border;
     padding: 1em;
+    border: 1px solid $border;
+    background: $bg;
+
+    ::v-deep canvas {
+      display: block;
+      margin: 1em 0;
+    }
   }
 }

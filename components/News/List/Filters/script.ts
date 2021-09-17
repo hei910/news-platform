@@ -1,25 +1,13 @@
-import { computed, defineComponent, reactive } from '@nuxtjs/composition-api'
+import { computed, defineComponent } from '@nuxtjs/composition-api'
 import useDictionary from '~/hooks/useDictionary'
+import useForm from '~/hooks/useForm';
+import { News } from '~/types/news';
 
-interface Form {
-  keywords: string,
-  newsType: number | null,
-  from: string,
-  to: string,
-  [propName: string]: any,
-}
-interface FormHelper {
-  dateRange: number | null,
-}
-const initFormValue: Form = {
-  keywords: '',
-  newsType: 1,
-  from: '',
-  to: '',
-}
-const initFormHelper: FormHelper = {
-  dateRange: null,
-}
+const initForm = (): Partial<News> => ({
+})
+const initFormHelper = (): Record<string, unknown> => ({
+})
+
 const dateRangeOptions = [
   { text: '当天', value: 1,},
   { text: '近一周', value: 2,},
@@ -27,18 +15,25 @@ const dateRangeOptions = [
   { text: '近三月', value: 4,},
   { text: '近六月', value: 5,}
 ]
+
 export default defineComponent({
   setup(_, { emit } ) {
-    const form = reactive(initFormValue)
-    const formHelper = reactive(initFormHelper)
+    const form = useForm(initForm());
+    const formHelper = useForm(initFormHelper());
     const { getDictOptions, getDictLabelById } = useDictionary();
 
     const newsTypeOptions = computed(() => getDictOptions('info_type'));
-    const newsTypeLabel = computed(() => getDictLabelById.value('info_type', form.newsType) || '-- 文章类型 --');
+    const newsTypeLabel = computed(() => getDictLabelById.value('info_type', form.data.value.newsType) || '-- 文章类型 --');
 
-    const onFilterChange = <T = any>(type: string, val: T): void => {
+    const resetFilter = () => {
+      form.data.value = initForm();
+      emit('resetFilter');
+    }
+
+    const onFilterChange = <T = any>(type: string, val: T) => {
       emit('onFilterChange', {type, val});
     }
+
     return {
       form,
       formHelper,
@@ -47,8 +42,8 @@ export default defineComponent({
       dateRangeOptions,
       newsTypeLabel,
       newsTypeOptions,
+      resetFilter,
       onFilterChange,
-      test: (data: any) => console.log(111, data.toString(), data)
     }
   },
 })

@@ -1,0 +1,30 @@
+.advanced-filter {
+
+  .form {
+    padding: 1.5em;
+
+    & > div {
+      margin: 0 0 1em;
+    }
+  }
+  label {
+    display: block;
+  }
+  .btn {
+    background: white;
+  }
+  .mx-datepicker-range {
+    width: auto;
+    display: block;
+  }
+}
+
+::v-deep {
+  
+  .b-sidebar-header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0.5em;
+  }
+}

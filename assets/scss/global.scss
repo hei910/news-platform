@@ -189,8 +189,8 @@ div.prepend-icon {
     &:hover {
 
       td {
-        background: lighten($info, 50%);
-        border-color: $info;
+        background: lighten($primary, 45%);
+        border-color: lighten($primary, 25%);
       }
     }
   }

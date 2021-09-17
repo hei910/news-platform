@@ -25,6 +25,7 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '@/assets/fonts/fonticon/font.scss',
     '@/assets/css/normalize.css',
     '@/assets/scss/global.scss',
     '@/node_modules/vue2-datepicker/index.css',
@@ -82,6 +83,7 @@ export default {
       'bootstrap/scss/_variables.scss',
       'bootstrap/scss/_mixins.scss',
       'assets/scss/bootstrap-override.scss',
+      'assets/fonts/fonticon/variables.scss',
     ],
   },
 
